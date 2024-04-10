@@ -17,43 +17,43 @@ class Group(Base):
     id: Mapped[Integer] = mapped_column(primary_key=True)    
     group_code: Mapped[str] = mapped_column(String(50))
     group_name: Mapped[str] = mapped_column(String(50))
-    students = relationship('Student', backref='group')
+    students = relationship('Student', backref='group') #TODO cascade delte
 
 
 class Student(Base):
     __tablename__ = 'students'
 
-    id = Column(Integer, primary_key=True)
-    name = Column(Text)
-    group_id = Column(Integer, ForeignKey('groups.id'))
+    id: Mapped[Integer] = mapped_column(Integer, primary_key=True)
+    name: Mapped[str] = mapped_column(String(50))
+    group_id: Mapped[str] = mapped_column(Integer, ForeignKey('groups.id'))
     grades = relationship('Grade', backref='student')
 
 
 class Teacher(Base):
     __tablename__ = 'teachers'
 
-    id = Column(Integer, primary_key=True)
-    teacher_name = Column(Text)
+    id: Mapped[Integer] = mapped_column(Integer, primary_key=True)
+    teacher_name: Mapped[str] = mapped_column(String(50))
     subjects = relationship('Subject', backref='teacher')
 
 
 class Subject(Base):
     __tablename__ = 'subjects'
 
-    id = Column(Integer, primary_key=True)
-    subj_name = Column(Text)
-    teacher_id = Column(Integer, ForeignKey('teachers.id'))
+    id: Mapped[Integer] = mapped_column(Integer, primary_key=True)
+    subj_name: Mapped[str] = mapped_column(String(50))
+    teacher_id: Mapped[Integer] = mapped_column(Integer, ForeignKey('teachers.id'))
     grades = relationship('Grade', backref='subject')
 
 
 class Grade(Base):
     __tablename__ = 'grades'
 
-    id = Column(Integer, primary_key=True)
-    student_id = Column(Integer, ForeignKey('students.id'))
-    subject_id = Column(Integer, ForeignKey('subjects.id'))
-    grade = Column(Integer)
-    date = Column(Date)
+    id: Mapped[Integer] = mapped_column(Integer, primary_key=True)
+    student_id: Mapped[Integer] = mapped_column(Integer, ForeignKey('students.id'))
+    subject_id: Mapped[Integer] = mapped_column(Integer, ForeignKey('subjects.id'))
+    grade: Mapped[Integer] = mapped_column(Integer)
+    date: Mapped[Date] = mapped_column(Date)
 
 if __name__ == "__main__":
     # Create tables in the database
