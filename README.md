@@ -1,7 +1,7 @@
 # HW7WEBSQLAlchemy
 
 1. Update db_cfg.ini file and set up your preferred database settings (don'g forget to update them in docker-composer.yml file if you use them)
-2. Run "docker-compose run" TBD
+2. Run "docker-compose up -d"
 3. Install all libraries from requirements.txt: pip install -r requirements.txt
 4. create and populate data using db_model.py and seed.py scripts
 5. Initialize alembic for migrations alembic init alembic
@@ -21,7 +21,7 @@ Implement your SQLALchemy models for tables:
     Table where each student has grades in subjects indicating when the assessment is received;
 
 Second step
-Use alembicto create migrations in the database.
+Use alembic to create migrations in the database.
 
 Third step
 Write a script seed.pyand fill in the received database with random data (-30-50 students, 3 groups, 5-8 subjects, 3-5 teachers, up to 20 grades in each student in all subjects). Use the package Fakerfor filling. When filling out, we use the SQLALchemy session mechanism.
