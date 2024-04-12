@@ -1,11 +1,13 @@
-from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Date
+from sqlalchemy import create_engine, Integer, String, ForeignKey, Date
+from typing import Optional, List
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship, Mapped, mapped_column
+from engin_gen import EngineManager
 from faker import Faker
 import random
 
 # Create SQLAlchemy engine
-engine = create_engine('postgresql://username:password@localhost/dbname')
+engine = EngineManager()
 
 # Create a base class for declarative models
 Base = declarative_base()
@@ -14,27 +16,27 @@ Base = declarative_base()
 class Group(Base):
     __tablename__ = 'groups'
 
-    id: Mapped[Integer] = mapped_column(primary_key=True)    
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)    
     group_code: Mapped[str] = mapped_column(String(50))
-    group_name: Mapped[str] = mapped_column(String(50))
-    students = relationship('Student', backref='group') #TODO cascade delte
+    group_name: Mapped[str] = mapped_column(String(100))
+    students = Mapped[List["Student"]] = relationship('Student', backref='group', cascade="all, delete-orphan") 
 
 
 class Student(Base):
     __tablename__ = 'students'
 
     id: Mapped[Integer] = mapped_column(Integer, primary_key=True)
-    name: Mapped[str] = mapped_column(String(50))
+    name: Mapped[str] = mapped_column(String(100))
     group_id: Mapped[str] = mapped_column(Integer, ForeignKey('groups.id'))
-    grades = relationship('Grade', backref='student')
+    grades = Mapped[List["Grade"]] = relationship('Grade', backref='student', cascade="all, delete-orphan")
 
 
 class Teacher(Base):
     __tablename__ = 'teachers'
 
     id: Mapped[Integer] = mapped_column(Integer, primary_key=True)
-    teacher_name: Mapped[str] = mapped_column(String(50))
-    subjects = relationship('Subject', backref='teacher')
+    teacher_name: Mapped[str] = mapped_column(String(100))
+    subjects = Mapped[List["Subject"]] = relationship('Subject', backref='teacher', cascade="all, delete-orphan")
 
 
 class Subject(Base):

@@ -16,6 +16,7 @@ if __name__ == "__main__":
     fake = Faker()
 
     # Create groups
+    # TODO add groups and groups codes dictionary
     groups_data = [{'group_code': fake.random_int(100, 999), 'group_name': fake.company()} for _ in range(5)]
     groups = [Group(**data) for data in groups_data]
     session.add_all(groups)
@@ -28,6 +29,7 @@ if __name__ == "__main__":
     session.commit()
 
     # Create subjects
+    # TODO create list with subject names and pick it from the list
     subjects_data = [{'subj_name': fake.word(), 'teacher_id': random.choice(teachers).id} for _ in range(5)]
     subjects = [Subject(**data) for data in subjects_data]
     session.add_all(subjects)
