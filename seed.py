@@ -3,10 +3,12 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from db_model import Group, Student, Teacher, Subject, Grade
 import random
+from engin_gen import EngineManager
 
 if __name__ == "__main__":
     # Create SQLAlchemy engine
-    engine = create_engine('postgresql://username:password@localhost/dbname')
+    engine = EngineManager()
+
 
     # Create a session maker
     Session = sessionmaker(bind=engine)
