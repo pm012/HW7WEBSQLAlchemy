@@ -1,13 +1,20 @@
 from faker import Faker
-from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from db_model import Group, Student, Teacher, Subject, Grade
 import random
-from engin_gen import EngineManager
+from engine_gen import EngineManager
 
 if __name__ == "__main__":
+    # Group names and subjects        
+    groups = {'AM-24-01' : 'Applied Mathematics', 'CS-24-01' : 'Computer Science', 'AI-24-01' : 'Computer Cybernetics and AI'}
+    subjects = ['Mathematical Analysis', 'Descrete Mathematics', 'Matematical Modeling', 'Statistics', 'Object Oriented Programming (C++)', 'Voice Recognition', 'Coputer Graphics']
+    NUMBER_OF_TEACHERS = 5
+    NUMBER_OF_STUDENTS = 30
+    GRADE_RANGE = (1, 12)
+
+    
     # Create SQLAlchemy engine
-    engine = EngineManager()
+    engine = EngineManager().get_engine()
 
 
     # Create a session maker
@@ -17,35 +24,33 @@ if __name__ == "__main__":
     # Seed the database with random data using Faker
     fake = Faker()
 
-    # Create groups
-    # TODO add groups and groups codes dictionary
-    groups_data = [{'group_code': fake.random_int(100, 999), 'group_name': fake.company()} for _ in range(5)]
+    # Create groups        
+    groups_data = [{'group_code': key, 'group_name': value} for key, value in groups.items()]
     groups = [Group(**data) for data in groups_data]
     session.add_all(groups)
     session.commit()
 
     # Create teachers
-    teachers_data = [{'teacher_name': fake.name()} for _ in range(3)]
+    teachers_data = [{'teacher_name': fake.name()} for _ in range(NUMBER_OF_TEACHERS)]
     teachers = [Teacher(**data) for data in teachers_data]
     session.add_all(teachers)
     session.commit()
 
-    # Create subjects
-    # TODO create list with subject names and pick it from the list
-    subjects_data = [{'subj_name': fake.word(), 'teacher_id': random.choice(teachers).id} for _ in range(5)]
+    # Create subjects    
+    subjects_data = [{'subj_name': subject_name, 'teacher_id': random.choice(teachers).id} for subject_name in subjects]
     subjects = [Subject(**data) for data in subjects_data]
     session.add_all(subjects)
     session.commit()
 
     # Create students
-    students_data = [{'name': fake.name(), 'group_id': random.choice(groups).id} for _ in range(30)]
+    students_data = [{'name': fake.name(), 'group_id': random.choice(groups).id} for _ in range(NUMBER_OF_STUDENTS)]
     students = [Student(**data) for data in students_data]
     session.add_all(students)
     session.commit()
 
     # Create grades
     grades_data = [{'student_id': random.choice(students).id, 'subject_id': random.choice(subjects).id,
-                    'grade': random.randint(1, 12), 'date': fake.date_this_year()} for _ in range(20)]
+                    'grade': random.randint(GRADE_RANGE[0], GRADE_RANGE[1]), 'date': fake.date_this_year()} for _ in range(20)]
     grades = [Grade(**data) for data in grades_data]
     session.add_all(grades)
     session.commit()

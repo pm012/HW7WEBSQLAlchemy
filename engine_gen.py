@@ -8,11 +8,13 @@ class EngineManager:
         config.read(CONFIG_FILE)
         username = config.get('postgres', 'username') 
         password = config.get('postgres', 'password') 
-        host = config.get('postgres', 'username') 
+        host = config.get('postgres', 'host') 
         port = config.get('postgres', 'port')
         db_name = config.get('postgres', 'db_name') 
         self.db_url = f'postgresql://{username}:{password}@{host}:{port}/{db_name}'
+        print("DB URL: ", self.db_url)
 
     def get_engine(self):
         
         engine = create_engine(self.db_url)
+        return engine
