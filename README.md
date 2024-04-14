@@ -5,9 +5,9 @@
 3. Install all libraries from requirements.txt: pip install -r requirements.txt
 4. create and populate data using db_model.py and seed.py scripts
 5. Initialize alembic for migrations alembic init alembic
-   TBD, TBU
-6. alembic revision --autogenerate -m "Initial migration" (a new migration will be created in alembic/versions folder)
-7. apply the migration to the database: alembic upgrade head
+6. Update connection string in alembic.ini file (parameter sqlalchemy.url should have postgresql://<username>:<password>@localhost/<databasename>)   
+7. alembic revision --autogenerate -m "Initial migration" (a new migration will be created in alembic/versions folder)
+8. apply the migration to the database: alembic upgrade head
 
 Steps to do homework
 
