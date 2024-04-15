@@ -10,18 +10,18 @@
    For example, for groups table:
    <code>
    def upgrade() -> None:
-        op.create_table(
-        'groups',
-        sa.Column('id', sa.Integer(), nullable=False),
-        sa.Column('group_code', sa.String(length=50), nullable=True),
-        sa.Column('group_name', sa.String(length=100), nullable=True),
-        sa.PrimaryKeyConstraint('id')
-        )
-    ... other tables initialization...</code>
+   op.create_table(
+   'groups',
+   sa.Column('id', sa.Integer(), nullable=False),
+   sa.Column('group_code', sa.String(length=50), nullable=True),
+   sa.Column('group_name', sa.String(length=100), nullable=True),
+   sa.PrimaryKeyConstraint('id')
+   )
+   ... other tables initialization...</code>
    <code>def downgrade() -> None:
-            op.drop_table('grades')
-            .... drop_table for other tables....
-    </code>
+   op.drop_table('grades')
+   .... drop_table for other tables....
+   </code>
 
 8. Apply the migration to the database: alembic upgrade head
 9. Create and populate data using db_model.py and seed.py scripts
@@ -57,7 +57,7 @@ Make the following samples from the received database:
     Find a list of courses that a particular student attends.
     List of courses that a particular student reads by a certain teacher.
 
-For requests to issue a separate file my_select.pyWhere they will be 10Functions from select_1to select_10. The performance of functions should return the result to similar prior homework. When requested, we use the SQLALchemy session mechanism.
+For requests to issue a separate file my_select.py, There will be 10 functions from select_1 to select_10. The functions should return the result similar to prior homework. It should be used the SQLALchemy session mechanism.
 
 Tips and recommendations
 This task will check your ability to use SQLALchemy documentation. But we will give you the main tips and directions of the solution immediately. Let us have the next request.
@@ -88,7 +88,7 @@ Possible withdrawal:
 Other requests you should build a similar example. And the last tip, if you decide to make the concluded requests, then use scalar-selects
 
 ########################################################################################################################33
-Additional task
+Additional task (not implemented)
 
 The first part​
 

@@ -49,9 +49,21 @@ if __name__ == "__main__":
     session.commit()
 
     # Create grades
-    grades_data = [{'student_id': random.choice(students).id, 'subject_id': random.choice(subjects).id,
-                    'grade': random.randint(GRADE_RANGE[0], GRADE_RANGE[1]), 'date': fake.date_this_year()} for _ in range(20)]
-    grades = [Grade(**data) for data in grades_data]
+    student_ids = [student.id for student in session.query(Student.id)]
+    subject_ids = [subject.id for subject in session.query(Subject.id)]
+
+    # Generate and add grades data to the session
+    grades = []
+    for _ in range(20):
+        grade_data = {
+            'student_id': random.choice(student_ids),
+            'subject_id': random.choice(subject_ids),
+            'grade': random.randint(GRADE_RANGE[0], GRADE_RANGE[1]),
+            'date': fake.date_this_year()
+        }
+        grade = Grade(**grade_data)
+        grades.append(grade)
+
     session.add_all(grades)
     session.commit()
 
