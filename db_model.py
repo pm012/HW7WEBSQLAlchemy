@@ -17,7 +17,7 @@ class Group(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)    
     group_code: Mapped[str] = mapped_column(String(50))
     group_name: Mapped[str] = mapped_column(String(100))
-    students = relationship('Student', backref='group', cascade="all, delete-orphan")
+    students: Mapped[list["Student"]] = relationship(backref='group', cascade="all, delete-orphan")
 
 
 class Student(Base):
@@ -26,7 +26,7 @@ class Student(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String(100))
     group_id: Mapped[str] = mapped_column(Integer, ForeignKey('groups.id'))
-    grades = relationship('Grade', backref='student', cascade="all, delete-orphan")
+    grades: Mapped[list["Grade"]] = relationship(backref='student', cascade="all, delete-orphan")
 
 
 class Teacher(Base):
@@ -34,7 +34,7 @@ class Teacher(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     teacher_name: Mapped[str] = mapped_column(String(100))
-    subjects = relationship('Subject', backref='teacher', cascade="all, delete-orphan")
+    subjects: Mapped[list["Subject"]] = relationship(backref='teacher', cascade="all, delete-orphan")
 
 
 class Subject(Base):
@@ -43,7 +43,7 @@ class Subject(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     subj_name: Mapped[str] = mapped_column(String(100))
     teacher_id: Mapped[int] = mapped_column(Integer, ForeignKey('teachers.id'))
-    grades = relationship('Grade', backref='subject', cascade="all, delete-orphan")
+    grades: Mapped[list["Grade"]] = relationship(backref='subject', cascade="all, delete-orphan")
 
 
 class Grade(Base):

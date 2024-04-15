@@ -3,11 +3,28 @@
 1. Update db_cfg.ini file and set up your preferred database settings (don'g forget to update them in docker-composer.yml file if you use them)
 2. Run "docker-compose up -d"
 3. Install all libraries from requirements.txt: pip install -r requirements.txt
-4. create and populate data using db_model.py and seed.py scripts
-5. Initialize alembic for migrations alembic init alembic
-6. Update connection string in alembic.ini file (parameter sqlalchemy.url should have postgresql://<username>:<password>@localhost/<databasename>)   
-7. alembic revision --autogenerate -m "Initial migration" (a new migration will be created in alembic/versions folder)
-8. apply the migration to the database: alembic upgrade head
+4. Initialize alembic for migrations: alembic init alembic
+5. Update connection string in alembic.ini file (parameter sqlalchemy.url should have postgresql://<username>:<password>@localhost/<databasename>)
+6. In env py import db_model module and initialize target_metadata = db_model.Base.metadata
+7. Create new migration: alembic revision --autogenerate -m "init" (a new migration will be created in alembic/versions folder). If file in /versions/<id>\_init.py has upgrade() and downgrade() methods without implementation it is required to fill them manually.
+   For example, for groups table:
+   <code>
+   def upgrade() -> None:
+        op.create_table(
+        'groups',
+        sa.Column('id', sa.Integer(), nullable=False),
+        sa.Column('group_code', sa.String(length=50), nullable=True),
+        sa.Column('group_name', sa.String(length=100), nullable=True),
+        sa.PrimaryKeyConstraint('id')
+        )
+    ... other tables initialization...</code>
+   <code>def downgrade() -> None:
+            op.drop_table('grades')
+            .... drop_table for other tables....
+    </code>
+
+8. Apply the migration to the database: alembic upgrade head
+9. Create and populate data using db_model.py and seed.py scripts
 
 Steps to do homework
 
