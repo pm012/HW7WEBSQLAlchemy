@@ -84,11 +84,15 @@ def query_7(session):
 # 8. Find the average score that a certain teacher puts in his subjects.
 def query_8(session):
     teacher_name = input("Enter the teacher name: ")
-    res = session.query(Subject.subj_name, Teacher.teacher_name, func.avg(Grade.grade).label('avg_grade')) \
+    res = session.query(
+            Subject.subj_name,
+            Teacher.teacher_name,
+            func.avg(Grade.grade).label('avg_grade')
+        ) \
         .join(Teacher, Subject.teacher_id == Teacher.id) \
         .join(Grade, Subject.id == Grade.subject_id) \
         .filter(Teacher.teacher_name == teacher_name) \
-        .group_by(Subject.subj_name) \
+        .group_by(Subject.subj_name, Teacher.teacher_name) \
         .all()
     
     return res
