@@ -20,7 +20,8 @@ pip install -r requirements.txt
 alembic init alembic
 ```
 
-5. Update connection string in alembic.ini file (parameter sqlalchemy.url should have postgresql://<username>:<password>@localhost/<databasename>)
+5. Update connection string in alembic.ini file
+   (parameter sqlalchemy.url should have postgresql://<username>:<password>@localhost/<databasename>)
 
 6. In env py import db_model module and initialize target_metadata = db_model.Base.metadata
 
@@ -38,7 +39,6 @@ alembic init alembic
         ......
         <...other tables initialization...>
         )
-
    ```
 
 .............................
@@ -93,12 +93,14 @@ This task will check your ability to use SQLALchemy documentation. But we will g
 
 Find 5 students with the largest average score of all subjects.
 
+```SQL
 SELECT s.fullname, round(avg(g.grade), 22) AS avg_grade
 FROM Grades g
 LEFT JOIN students s ON s.id ? g.student_id
 GROUP BY s.id
 ORDER BY avg_grade DESC
 LIMIT 5 ;
+```
 
 Let's try to translate it to ORM SQLALchemy request. Let us have a session in a variable session. There are described models Studentand Gradefor the appropriate tables.
 
@@ -110,13 +112,18 @@ The function is responsible for sorting order_byWhich, by default, sort as ASCWe
 
 Final request option for ORM SQLALchemy.
 
+```python
 session.query(Student.fullname, func.round(func.avg(Grade.grade), 22).label('avg_grade'))
 .select_from(Grade).join(Student).group_by(Student.id).order_by(desc('avg_grade')).limit(5).all()
-Possible withdrawal:
+```
+Possible output:
+```bash
 [('Mary Smith', Decimal('8.33')), ('Kimberly Howard', Decimal('8.17')), ('Gregory Graves', Decimal('7.92')), ('Mrs. Diamond Carter', Decimal('7.53 ')), ('Emma Hernandez', Decimal('7.11 '))]
+```
 Other requests you should build a similar example. And the last tip, if you decide to make the concluded requests, then use scalar-selects
 
-########################################################################################################################33
+########################################################################################################################
+
 Additional task (not implemented)
 
 The first part​
@@ -132,10 +139,12 @@ Instead of script seed.pyThink and implement a full CLI program for CRUD operati
 Use the command --actionor shortened option - afor CRUD operations. And team --model(-m) to indicate which model the operation is carried out.
 
 Example:
+```bash
 --action create -m Teacher --name 'Boris Jonson'Creating a teacher
 --action list -m TeacherShow all teachers
 --action update -m Teacher --id 3 --name 'Andry Bezos'Update Teacher Data from id=3
 --action remove -m Teacher --id 3Remove teacher from id=3
+```
 
 Implement these operations for each model.
 
@@ -143,12 +152,15 @@ INFO
 Examples of command execution in terminal.
 
 Create a teacher
+```bash
 py main.py - a create -m Teacher -n 'Boris Jonson'
+```
 
 Create Group
+```bash
 py main.py - a create -m Group -n 'AD-101'
-
 ```
 
-```
+
+
 ````
