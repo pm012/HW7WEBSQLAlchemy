@@ -39,20 +39,22 @@ alembic init alembic
         ......
         <...other tables initialization...>
         )
-   ```
+    ##################################################
 
-.............................
+
 
     def downgrade() -> None:
         op.drop_table('grades')
-        .... drop_table for other tables....
+        #drop_table for other tables########
 
-````
+   ```
 
 8. Apply the migration to the database:
+
 ```bash
 alembic upgrade head
 ```
+
 9. Create and populate data using db_model.py and seed.py scripts
 
 Steps to do homework
@@ -60,11 +62,11 @@ Steps to do homework
 First step
 Implement your SQLALchemy models for tables:
 
- Table of students;
- Table of groups;
- Table of teachers;
- Table of subjects with the teacher who reads the subject;
- Table where each student has grades in subjects indicating when the assessment is received;
+Table of students;
+Table of groups;
+Table of teachers;
+Table of subjects with the teacher who reads the subject;
+Table where each student has grades in subjects indicating when the assessment is received;
 
 Second step
 Use alembic to create migrations in the database.
@@ -75,16 +77,16 @@ Write a script seed.py and fill in the received database with random data (-30-5
 The Fourth Step
 Make the following samples from the received database:
 
- Find 5 students with the largest average score of all subjects.
- Find a student with the highest average score from a particular subject.
- Find the average score in groups from a particular subject.
- Find the average score on the stream (all the rating table).
- Find what courses a certain teacher is reading.
- Find a list of students in a particular group.
- Find students' grades in a separate group from a particular subject.
- Find the average score that a certain teacher puts in his subjects.
- Find a list of courses that a particular student attends.
- List of courses that a particular student reads by a certain teacher.
+Find 5 students with the largest average score of all subjects.
+Find a student with the highest average score from a particular subject.
+Find the average score in groups from a particular subject.
+Find the average score on the stream (all the rating table).
+Find what courses a certain teacher is reading.
+Find a list of students in a particular group.
+Find students' grades in a separate group from a particular subject.
+Find the average score that a certain teacher puts in his subjects.
+Find a list of courses that a particular student attends.
+List of courses that a particular student reads by a certain teacher.
 
 For requests to issue a separate file my_select.py, There will be 10 functions from select_1 to select_10. The functions should return the result similar to prior homework. It should be used the SQLALchemy session mechanism.
 
@@ -113,13 +115,15 @@ The function is responsible for sorting order_byWhich, by default, sort as ASCWe
 Final request option for ORM SQLALchemy.
 
 ```python
-session.query(Student.fullname, func.round(func.avg(Grade.grade), 22).label('avg_grade'))
-.select_from(Grade).join(Student).group_by(Student.id).order_by(desc('avg_grade')).limit(5).all()
+session.query(Student.fullname, func.round(func.avg(Grade.grade), 22).label('avg_grade')).select_from(Grade).join(Student).group_by(Student.id).order_by(desc('avg_grade')).limit(5).all()
 ```
+
 Possible output:
+
 ```bash
 [('Mary Smith', Decimal('8.33')), ('Kimberly Howard', Decimal('8.17')), ('Gregory Graves', Decimal('7.92')), ('Mrs. Diamond Carter', Decimal('7.53 ')), ('Emma Hernandez', Decimal('7.11 '))]
 ```
+
 Other requests you should build a similar example. And the last tip, if you decide to make the concluded requests, then use scalar-selects
 
 ########################################################################################################################
@@ -136,9 +140,10 @@ The second part​
 
 Instead of script seed.pyThink and implement a full CLI program for CRUD operations with a database. Use the module for this <b>argparse</b> .
 
-Use the command --actionor shortened option - afor CRUD operations. And team --model(-m) to indicate which model the operation is carried out.
+Use the command --action or shortened option -a and for CRUD operations. And team --model(-m) to indicate which model the operation is carried out.
 
 Example:
+
 ```bash
 --action create -m Teacher --name 'Boris Jonson'Creating a teacher
 --action list -m TeacherShow all teachers
@@ -152,15 +157,13 @@ INFO
 Examples of command execution in terminal.
 
 Create a teacher
+
 ```bash
 py main.py - a create -m Teacher -n 'Boris Jonson'
 ```
 
 Create Group
+
 ```bash
 py main.py - a create -m Group -n 'AD-101'
 ```
-
-
-
-````
