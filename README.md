@@ -23,31 +23,55 @@ alembic init alembic
 5. Update connection string in alembic.ini file
    (parameter sqlalchemy.url should have postgresql://<username>:<password>@localhost/<databasename>)
 
-6. In env py import db_model module and initialize target_metadata = db_model.Base.metadata
+6. In env.py import db_model module
 
-7. Create new migration: alembic revision --autogenerate -m "init" (a new migration will be created in alembic/versions folder). If file in /versions/<id>\_init.py has upgrade() and downgrade() methods without implementation it is required to fill them manually.
-   For example, for groups table:
+```python
+from db_model import Base
+```
 
-   ```python
-   def upgrade() -> None:
-    op.create_table(
-        'groups',
-        sa.Column('id', sa.Integer(), nullable=False),
-        sa.Column('group_code', sa.String(length=50), nullable=True),
-        sa.Column('group_name', sa.String(length=100), nullable=True),
-        sa.PrimaryKeyConstraint('id')
-        ......
-        <...other tables initialization...>
-        )
-    ##################################################
+and initialize target_metadata:
+
+```python
+target_metadata = db_model.Base.metadata
+```
+
+7. Create new migration:
+
+```bash
+alembic revision --autogenerate -m "init"
+```
+
+and apply it
+
+```bash
+alembic upgrade head
+```
+
+(a new migration will be created in alembic/versions folder).
+If file in /versions/<id>\_init.py has upgrade() and downgrade() methods without implementation it is required to fill them manually.
+
+For example, for groups table:
+
+```python
+def upgrade() -> None:
+ op.create_table(
+     'groups',
+     sa.Column('id', sa.Integer(), nullable=False),
+     sa.Column('group_code', sa.String(length=50), nullable=True),
+     sa.Column('group_name', sa.String(length=100), nullable=True),
+     sa.PrimaryKeyConstraint('id')
+     ......
+     <...other tables initialization...>
+     )
+ ##################################################
 
 
 
-    def downgrade() -> None:
-        op.drop_table('grades')
-        #drop_table for other tables########
+ def downgrade() -> None:
+     op.drop_table('grades')
+     #drop_table for other tables########
 
-   ```
+```
 
 8. Apply the migration to the database:
 
