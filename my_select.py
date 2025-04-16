@@ -124,12 +124,51 @@ def query_10(session):
     
     return res
 
+# 11. The average score that a particular teacher puts to a particular student.
+def query_11(session):
+    student_name = input("Enter the student name: ")
+    teacher_name = input("Enter the teacher name: ")
+
+    res = session.query(
+            Student.name,
+            Teacher.teacher_name,
+            func.avg(Grade.grade).label("avg_grade")
+        ) \
+        .join(Grade, Student.id == Grade.student_id) \
+        .join(Subject, Grade.subject_id == Subject.id) \
+        .join(Teacher, Subject.teacher_id == Teacher.id) \
+        .filter(Student.name == student_name) \
+        .filter(Teacher.teacher_name == teacher_name) \
+        .group_by(Student.name, Teacher.teacher_name) \
+        .all()
+    
+    return res
+
+# 12. Student scores in a particular group from a particular subject in the last lesson.
+def query_12(session):
+    group_name = input("Enter the group name: ")
+    subject_name = input("Enter the subject name: ")
+
+    subquery = session.query(func.max(Grade.date)).join(Subject).filter(Subject.subj_name == subject_name).scalar()
+
+    res = session.query(Student.name, Grade.grade, Grade.date) \
+        .join(Group, Student.group_id == Group.id) \
+        .join(Grade, Student.id == Grade.student_id) \
+        .join(Subject, Grade.subject_id == Subject.id) \
+        .filter(Group.group_name == group_name) \
+        .filter(Subject.subj_name == subject_name) \
+        .filter(Grade.date == subquery) \
+        .all()
+    
+    return res
+
+
 
 def get_handler(num, queries):
     return queries[num]
 
 if __name__ == "__main__":
-    queries = {i: globals()[f'query_{i}'] for i in range(1, 11)}
+    queries = {i: globals()[f'query_{i}'] for i in range(1, 13)}
     tasks = {
         1: "Find the 5 students with the highest GPA(grate point average) across all subjects.",
         2: "Find the student with the highest GPA in a particular subject.",
@@ -140,7 +179,10 @@ if __name__ == "__main__":
         7: "Find the grades of students in a separate group for a specific subject.",
         8: "Find the average score given by a certain teacher in his subjects.",
         9: "Find a list of courses a student is taking.",
-        10: "A list of courses taught to a specific student by a specific teacher."
+        10: "A list of courses taught to a specific student by a specific teacher.",
+        11: "Find the average score that a specific teacher gives to a specific student.",
+        12: "Find student scores in a specific group from a specific subject in the last lesson.",
+
 
     }
 

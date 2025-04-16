@@ -3,9 +3,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship, Mapped, mapped_column
 from sqlalchemy.sql.sqltypes import Date as DateType
 from engine_gen import EngineManager
+from db_init import engine
 
-# Create SQLAlchemy engine
-engine = EngineManager().get_engine()
 
 # Create a base class for declarative models
 Base = declarative_base()

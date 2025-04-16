@@ -152,7 +152,7 @@ Other requests you should build a similar example. And the last tip, if you deci
 
 ########################################################################################################################
 
-Additional task (not implemented)
+Additional task
 
 The first part​
 
@@ -180,14 +180,50 @@ Implement these operations for each model.
 INFO
 Examples of command execution in terminal.
 
+Create a group:
+
+```bash
+python main.py -a create -m Group --group_code "GR101" --group_name "Python Beginners"
+```
+
+List a group
+
+```bash
+python main.py -a list -m Group
+```
+
 Create a teacher
 
 ```bash
-py main.py - a create -m Teacher -n 'Boris Jonson'
+python main.py -a create -m Teacher -n "Dr. Ada Lovelace"
 ```
 
-Create Group
+Update teacher name by ID:
 
 ```bash
-py main.py - a create -m Group -n 'AD-101'
+python main.py -a update -m Teacher -id 2 -n "Prof. Ada Lovelace"
+```
+
+Create a student:
+
+```bash
+python main.py -a create -m Student -n "John Doe" --group_id 1
+```
+
+Remove a student:
+
+```bash
+python main.py -a remove -m Student -id 3
+```
+
+Create a grade:
+
+```bash
+python main.py -a create -m Grade --student_id 1 --subject_id 2 --grade 95 --date 2025-04-12
+```
+
+List all grades
+
+```bash
+python main.py -a list -m Grade
 ```
